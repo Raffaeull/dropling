@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "preinstall": "cat .deploy-xz/site.xz.b64.* | base64 -d > /tmp/dropling-site.tar.xz && tar -xJf /tmp/dropling-site.tar.xz -C .",
+    "preinstall": "for f in .deploy-xz/site.xz.b64.*; do base64 -d \"$f\"; done > /tmp/dropling-site.tar.xz && tar -xJf /tmp/dropling-site.tar.xz -C .",
     "start": "node startup.js"
   },
   "engines": {
