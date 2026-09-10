@@ -1,0 +1,5 @@
+const fs=require('fs');
+function patch(file,fn){if(!fs.existsSync(file))return;fs.writeFileSync(file,fn(fs.readFileSync(file,'utf8')),'utf8')}
+patch('index.html',s=>s.replaceAll('Midnight Automatic','Casio Vintage A168').replaceAll('R$ 399,90','R$ 349,00').replaceAll('produto.html?id=9001','produto.html?id=4').replace('Visual escuro, caixa em aço e mostrador azul profundo. Produto provisório para validar toda a jornada de compra.','Produto temporário para validar página de detalhes, carrinho, frete e checkout durante a criação do novo catálogo.'));
+patch('script.js',s=>{s=s.replace(/let PRODUTOS = \[[\s\S]*?\]\n\/\* ---------- Carregamento do catálogo pelo backend ---------- \*\//,`let PRODUTOS = [{ id:4, nome:'Casio Vintage A168', marca:'Casio', categoria:'Relógios', preco:349.00, sku:'CAS-A168-01', desc:'Produto temporário para testes do novo site.', fotos:[], estoque:10, ativo:true }]\n/* ---------- Carregamento do catálogo pelo backend ---------- */`);s=s.replace('if (produtos.length) PRODUTOS = produtos;','if (produtos.length) PRODUTOS = produtos.filter(p => Number(p.id) === 4);');return s});
+console.log('Public catalog limited to one test product.');
